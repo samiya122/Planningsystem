@@ -1,28 +1,29 @@
 <?php 
 
   // include connection settings
-  include( "connectdbs.php");
 
 
-  if(isset($_POST["create"])){
+if($_SERVER['REQUEST_METHOD']=='POST'){
+    include "connectdbs.php";
+    if(isset($_POST["create"])){
     $userName = $_POST["username"];
     $email = $_POST["email"];
     $phoneNumber = $_POST["number"];
     $passwords = $_POST["password"];
 
-    $sql = "INSERT INTO register (username, email, phone_number, password) VALUES (?,?,?,?)";
-    $stmtinsert = $connection->prepare($sql);
-    $result =  $stmtinsert->execute([$userName, $email, $phoneNumber, $passwords]);
+    $sql = "INSERT INTO `register` (username, email, phone_number, password) VALUES ('$userName', '$email', '$phoneNumber', '$passwords')";
+    $result = mysqli_query($connection,$sql);
     if($result){
-        echo 'Success';
+        //displays ok sign
+        echo "<script type='text/javascript'> alert('Succesfull register')</script>" ;
     }else{
         echo 'error';
     }
 
 
   }
+}
 ?>
-
 
 
 <!DOCTYPE html>
@@ -62,7 +63,7 @@
                     <input type="submit" class="btn" name="create" value="Register" required>
                 </div>
                 <div class="sign-up-link">
-                    <p>Have an account? <a href="home.html">Sign In</a> </p>
+                    <p>Have an account? <a href="signin.php">Sign In</a> </p>
                 </div>
 
             

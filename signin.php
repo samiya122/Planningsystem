@@ -1,3 +1,39 @@
+<?php 
+  
+  session_start();
+  include( "connectdbs.php");
+
+
+  // include connection settings
+
+
+    if(isset($_POST["submit"])){
+      $userName = $_POST["username"];
+      $passwords = $_POST["password"];
+           $sql = "SELECT * FROM `register` WHERE username='$userName' AND  password='$passwords'";
+           $result = mysqli_query($connection,$sql);
+           $num=mysqli_num_rows($result);
+         
+             
+            if ($num>0){
+                
+                $_SESSION['User_name'] =$userName;
+
+              header('location:home.php');
+              
+            }else{
+               echo 'invalis';
+    
+            }
+        
+            
+    }
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +58,7 @@
                     <input type="text" name="password" placeholder="password" id="password" required>
                 </div>
                 <div class="field">
-                    <input type="submit" class="btn" name="submit" value="Sign in" required>
+                    <input type="submit" class="btn" name="submit" value="Signin" required>
                 </div>
                 <div class="sign-up-link">
                     <p>Don't have an account? <a href="register.php">Sign up</a> </p>
