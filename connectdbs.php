@@ -12,6 +12,6 @@ if ($connection->connect_error) {
          printf("Connection failed: %s\n", $connection->connect_error);
          exit();
       } else {
-        echo "Database connected successfully!";
+        echo "";
       }
  ?> 

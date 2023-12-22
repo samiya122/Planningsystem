@@ -22,12 +22,17 @@
               header('location:home.php');
               
             }else{
-               echo 'invalis';
+
+                echo "<script type='text/javascript'> alert('Invalid details!');
+                window.location.href = 'signin.php';</script>" ;
+               
+
     
             }
         
             
     }
+  
 
 
 
@@ -60,6 +65,13 @@
                 <div class="field">
                     <input type="submit" class="btn" name="submit" value="Signin" required>
                 </div>
+
+                <?php
+                // Display error message if invalid details
+                if (isset($invalidDetails) && $invalidDetails) {
+                    echo '<div class="error-message">Invalid details</div>';
+                }
+                ?>
                 <div class="sign-up-link">
                     <p>Don't have an account? <a href="register.php">Sign up</a> </p>
                 </div>
