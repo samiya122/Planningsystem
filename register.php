@@ -14,7 +14,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     $sql = "INSERT INTO `register` (username, email, phone_number, password) VALUES ('$userName', '$email', '$phoneNumber', '$passwords')";
     $result = mysqli_query($connection,$sql);
     if($result){
-        //displays ok sign
+          
         echo "<script type='text/javascript'> alert('Succesfull register')</script>" ;
     }else{
         echo 'error';

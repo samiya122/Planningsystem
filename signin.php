@@ -17,9 +17,17 @@
              
             if ($num>0){
                 
-                $_SESSION['User_name'] =$userName;
 
-              header('location:home.php');
+            
+                $userData = mysqli_fetch_assoc($result);
+
+                $_SESSION['User_id'] = $userData['UserID'];
+
+                $_SESSION['User_name'] =$userName;
+           
+                
+
+              header('location:create.php');
               
             }else{
 
