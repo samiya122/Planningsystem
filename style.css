@@ -12,7 +12,10 @@ body{
     background: #F2F3F4;
 }
 
-
+/* Title: Creative Login and Registration form In HTML, CSS & PHP - Simple PHP System
+    Author: Ludiflex
+    Source: https://www.youtube.com/watch?v=1zXqo2WcOew&t=562s
+    I used this video create the  layout and the design of  registration and signin forms*/
 
 .container{
     display: flex;
@@ -108,11 +111,7 @@ body{
     font-size: 20px;
 }
 
-/*h1{
-    text-align: center;
-    padding-top: 50px;
-    padding-bottom: 100px;
-}*/
+
 
 .nav ul{
     list-style: none;
@@ -124,10 +123,10 @@ body{
 
 .nav li{
     display: inline-block;
-    border: 2px solid #000; /* Border color */
-    border-radius: 50%; /* Makes it circular */
+    border: 2px solid #000; 
+    border-radius: 50%; 
    
-    margin: 70px 170px ; /* Adjust the margin as needed for spacing between items */
+    margin: 70px 170px ; 
     vertical-align: middle;
 
     
@@ -136,8 +135,8 @@ body{
 .nav a {
     text-decoration: none;
     color: black;
-    padding: 10px 20px; /* Adjusted padding */
-    font-size: 30px; /* Adjusted font size */
+    padding: 10px 20px; 
+    font-size: 30px; 
 }
 
 
@@ -148,15 +147,12 @@ body{
   
 
 
-
-
-
 .container2{
-   /* display: flex;*/
+ 
     align-items: center;
     justify-content: center;
     padding-top: 50px;
-   /* min-height: 90vh;*/
+
 
 }
 

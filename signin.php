@@ -4,7 +4,7 @@
   include( "connectdbs.php");
 
 
-  // include connection settings
+
 
 
     if(isset($_POST["submit"])){
@@ -75,7 +75,7 @@
                 </div>
 
                 <?php
-                // Display error message if invalid details
+                // Displays an  error  if  the  details are invalid
                 if (isset($invalidDetails) && $invalidDetails) {
                     echo '<div class="error-message">Invalid details</div>';
                 }

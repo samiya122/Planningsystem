@@ -24,21 +24,32 @@ $sql = "SELECT * FROM `register` WHERE username='$profile' AND UserID='$userID'"
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
     require_once "connectdbs.php";
-    if(isset($_POST["add_data"])){
-    $projectName = $_POST["projectName"];
-    $startDate = $_POST["startDate"];
-    $endDate = $_POST["endDate"];
-    $description = $_POST["description"];
-    $status = $_POST["status"];
+    if(isset($_POST["add_task"])){
+    $taskName= $_POST["taskName"];
+    $taskStart= $_POST["start"];
+    $taskEnd= $_POST["end"];
+    $taskStatus = $_POST["status"];
+    $projectID = $_POST["projectID"];
+    
 
 
-    $sql = "INSERT INTO `Project` (projectName, startDate, endDate, projectDescription, status, UserID) VALUES ('$projectName', '$startDate', '$endDate', '$description', '$status', $userids)";
+      $selectedMember = explode(",", $_POST["memberIDAndName"]);
+      $memberID = $selectedMember[0];
+      $memberName = $selectedMember[1];
+
+
+
+
+
+    $sql = "INSERT INTO `Tasks` (taskName, taskStart, taskEnd, status, projectID, memberID, memberName, UserID) VALUES ('$taskName', '$taskStart', '$taskEnd', '$taskStatus','$projectID', '$memberID', '$memberName', '$userids')";
     $result = mysqli_query($connection,$sql);
     if($result){
-     
+        
+
+       
 
         $_SESSION['current'] = "Data inserted";
-        header('location:create.php');
+        header('location:task.php');
     }else{
         echo 'error';
     }
@@ -50,10 +61,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 
 
-    
 
-    $query = "SELECT * FROM `Project` WHERE UserID=$userids";
-    $result = mysqli_query($connection,$query);
+ $query = "SELECT taskID, taskName, taskStart, taskEnd, status, projectID, memberName FROM `Tasks` WHERE UserID=$userids";
+ $result = mysqli_query($connection,$query);
     
 
 ?>
@@ -92,19 +102,21 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
         <div class="container-lg">
             <div class="container3">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#projectModal" class="btn btn-primary mb-3">Add Project</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#projectModal" class="btn btn-primary mb-3">Add Task</a>
                 
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th class="col">Project ID</th>
-                            <th class="col">Project Name</th>
+                            <th class="col">Task ID</th>
+                            <th class="col">Task Description</th>
                             <th class="col">Start Date</th>
                             <th class="col">End Date</th>
-                            <th class="col">Description</th>
-                            <th class="col">Status</th>
-                            <th class="col">User ID</th>
+                            <th class="col">status</th>
+                            <th class="col">Project ID</th>
+                            <th class="col">Assign to  Member Name</th>
                             <th class="col">Operation</th>
+
+
                         </tr>  
                     </thead>
                     <tbody>
@@ -115,15 +127,16 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
                         ?>  
 
-                        <td><?php echo $row["projectID"] ?> </td>
-                        <td><?php echo $row["projectName"] ?> </td>
-                        <td><?php echo $row["startDate"] ?> </td>
-                        <td><?php echo $row["endDate"] ?> </td>
-                        <td><?php echo $row["projectDescription"] ?> </td>
+                        <td><?php echo $row["taskID"] ?> </td>
+                        <td><?php echo $row["taskName"] ?> </td>
+                        <td><?php echo $row["taskStart"] ?> </td>
+                        <td><?php echo $row["taskEnd"] ?> </td>
                         <td><?php echo $row["status"] ?> </td>
-                        <td><?php echo $row["UserID"] ?> </td>
-                        <td><a href="delete.php?projectID=<?php echo $row["projectID"]; ?>" class="btn btn-danger">Delete</a></td>
+                        <td><?php echo $row["projectID"] ?> </td>
+                        <td><?php echo $row["memberName"] ?> </td>
+                        <td><a href="delete.php?taskID=<?php echo $row["taskID"]; ?>" class="btn btn-danger">Delete</a></td>
 
+                       
 
 
                           
@@ -136,6 +149,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
                         
                        
+                       
                     </tbody>
                 </table>
             </div>
@@ -144,43 +158,65 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         <div class="logout-container">
             <a href="logout.php" class="logout-button">Logout</a>
         </div>
-    </div> 
-
-    <!-- I adapted the modal form from "https://getbootstrap.com/docs/5.0/components/modal/" --> 
+    </div>
+   
+    
     <div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Project</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Task</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="" method="POST" >
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label for="">Project Name</label>
-                            <input type="text" class="form-control" name="projectName" required>
+                            <label for="">Task Name</label>
+                            <input type="text" class="form-control" name="taskName" required>
                         </div>
                         <div class="form-group mb-3">
                             <label for="">Start Date</label>
-                            <input type="date" class="form-control" name="startDate" required>
+                            <input type="date" class="form-control" name="start" required>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="">End Date</label>
-                            <input type="date" class="form-control" name="endDate" required>
+                            <label for="">End date</label>
+                            <input type="date" class="form-control" name="end" required>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="">Description</label>
-                            <input type="text" class="form-control" name="description" required>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="">Status</label>
+                            <label for="">status</label>
                             <input type="text" class="form-control" name="status" required>
                         </div>
+                        <div class="form-group mb-3">
+                          <label for="">Project ID and Name </label>
+                        
+                          <select class="form-select" name="projectID" required>
+                            <?php
+                            $projectQuery = "SELECT projectID, projectName FROM `Project` WHERE UserID = $userids";
+                            $projectResult = mysqli_query($connection, $projectQuery);
+
+                            while ($projectRow = mysqli_fetch_assoc($projectResult)) {
+                                echo "<option value='{$projectRow["projectID"]}'>{$projectRow["projectID"]} & {$projectRow["projectName"]} </option>";
+                            }
+                            ?>
+                          </select>
+                      </div>
+                      <div class="form-group mb-3">
+                          <label for="">Assign to Member ID and Name </label>
+                          <select class="form-select" name="memberIDAndName" required>
+                            <?php
+                            $memberQuery = "SELECT ID, memberName FROM `MembersOfProject` WHERE UserID = $userids";
+                            $memberResult = mysqli_query($connection, $memberQuery);
+
+                            while ($memberRow = mysqli_fetch_assoc($memberResult)) {
+                                echo "<option value='{$memberRow["ID"]},{$memberRow["memberName"]}'>{$memberRow["ID"]} & {$memberRow["memberName"]} </option>";                            }
+                            ?>
+                          </select>
+                      </div>
                     
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" name="add_data" class="btn btn-primary">Save changes</button>
+                        <button type="submit" name="add_task" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
                
@@ -190,4 +226,3 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     </div>
 </body>
 </html>
-
